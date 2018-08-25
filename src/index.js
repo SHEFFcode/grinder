@@ -1,3 +1,4 @@
+import 'babel-polyfill'
 import express from 'express'
 import renderer from '../src/helpers/renderer'
 const app = express()
