@@ -28,6 +28,7 @@ function mapStateToProps(state) {
 }
 
 export function loadData(store) {
+  console.log(`Store is ${store}`)
   return store.dispatch(fetchUsers())
 }
 
