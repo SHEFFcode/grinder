@@ -12,8 +12,9 @@ app.get('*', (req, res) => {
   const promiseArray = matchRoutes(Routes, req.path).map(({ route }) => {
     return route.loadData ? route.loadData(store) : null
   })
-  console.log(promiseArray)
-  res.send(renderer(req, store))
+  Promise.all(promiseArray).then(() => {
+    res.send(renderer(req, store))
+  })
 })
 
 app.listen(3000, () => console.log('Listening on port 3000...'))
