@@ -9,9 +9,10 @@ import createStore from './helpers/createStore'
 app.use(express.static('public'))
 app.get('*', (req, res) => {
   const store = createStore()
-  matchRoutes(Routes, req.path).map(({ route }) => {
-    return route.loadData ? route.loadData() : null
+  const promiseArray = matchRoutes(Routes, req.path).map(({ route }) => {
+    return route.loadData ? route.loadData(store) : null
   })
+  console.log(promiseArray)
   res.send(renderer(req, store))
 })
 
