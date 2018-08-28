@@ -23,7 +23,12 @@ app.get('*', (req, res) => {
     return route.loadData ? route.loadData(store) : null
   })
   Promise.all(promiseArray).then(() => {
-    res.send(renderer(req, store))
+    const context = {}
+    const content = renderer(req, store, context)
+    if (content.error) {
+      res.status(404)
+    }
+    res.send(content)
   })
 })
 
