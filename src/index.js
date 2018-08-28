@@ -7,12 +7,15 @@ import Routes from '../client/Routes'
 const app = express()
 import createStore from './helpers/createStore'
 
-app.use('/api', proxy('http://react-ssr-api.herokuapp.com', {
-  proxyRecOptDecorator(opts) {
-    opts.header['x-forwarded-host'] = 'localhost:3000'
-    return opts
-  }
-}))
+app.use(
+  '/api',
+  proxy('http://react-ssr-api.herokuapp.com', {
+    proxyReqOptDecorator(opts) {
+      opts.headers['x-forwarded-host'] = 'localhost:3000'
+      return opts
+    }
+  })
+)
 app.use(express.static('public'))
 app.get('*', (req, res) => {
   const store = createStore(req)

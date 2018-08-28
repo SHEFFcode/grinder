@@ -39044,7 +39044,7 @@ exports.default = {
   component: App,
   loadData: function loadData(_ref2) {
     var dispatch = _ref2.dispatch;
-    return dispatch(_actions.fetchCurrentUser);
+    return dispatch((0, _actions.fetchCurrentUser)());
   }
 };
 
@@ -39056,7 +39056,7 @@ exports.default = {
 
 
 Object.defineProperty(exports, "__esModule", {
-    value: true
+  value: true
 });
 
 var _react = __webpack_require__(6);
@@ -39065,19 +39065,57 @@ var _react2 = _interopRequireDefault(_react);
 
 var _reactRouterDom = __webpack_require__(160);
 
+var _reactRedux = __webpack_require__(175);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-exports.default = function () {
-    return _react2.default.createElement(
-        'div',
-        null,
-        _react2.default.createElement(
-            _reactRouterDom.Link,
-            { to: '/' },
-            'React SSR'
-        )
-    );
+var Header = function Header(_ref) {
+  var auth = _ref.auth;
+
+  console.log('My auth status is ' + JSON.stringify(auth));
+
+  var AuthButton = auth ? _react2.default.createElement(
+    'a',
+    { href: '/api/logout' },
+    'Logout'
+  ) : _react2.default.createElement(
+    'a',
+    { href: '/api/auth/google' },
+    'Login'
+  );
+  return _react2.default.createElement(
+    'div',
+    null,
+    _react2.default.createElement(
+      _reactRouterDom.Link,
+      { to: '/' },
+      'React SSR'
+    ),
+    _react2.default.createElement(
+      'div',
+      null,
+      _react2.default.createElement(
+        _reactRouterDom.Link,
+        { to: '/users' },
+        'Users'
+      ),
+      _react2.default.createElement(
+        _reactRouterDom.Link,
+        { to: '/admins' },
+        'Admins'
+      ),
+      AuthButton
+    )
+  );
 };
+
+function mapStateToProps(_ref2) {
+  var auth = _ref2.auth;
+
+  return { auth: auth };
+}
+
+exports.default = (0, _reactRedux.connect)(mapStateToProps)(Header);
 
 /***/ }),
 /* 481 */
